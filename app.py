@@ -107,14 +107,6 @@ def logout():
 @app.route('/twitter_report', methods=["GET", "POST"])
 def twitter_report():
     if 'login' in session:
-        connection = psycopg2.connect(host='localhost',
-                                port='5432',
-                                user='postgres',
-                                password='root',
-                                database='socialanalytics')
-
-        cursor = connection.cursor()
-
         columns_query = """SELECT column_name
         FROM information_schema.columns 
         WHERE table_name = 'twitter';"""
@@ -185,14 +177,6 @@ def twitter_report():
 @app.route('/instagram_report', methods=["GET", "POST"])
 def instagram_report():
     if 'login' in session:
-        connection = psycopg2.connect(host='localhost',
-                                port='5432',
-                                user='postgres',
-                                password='root',
-                                database='socialanalytics')
-
-        cursor = connection.cursor()
-
         columns_query = """SELECT column_name
         FROM information_schema.columns 
         WHERE table_name = 'instagram';"""
@@ -269,14 +253,6 @@ def instagram_report():
 @app.route('/youtube_report', methods=["GET", "POST"])
 def youtube_report():
     if 'login' in session:
-        connection = psycopg2.connect(host='localhost',
-                                port='5432',
-                                user='postgres',
-                                password='root',
-                                database='socialanalytics')
-
-        cursor = connection.cursor()
-
         columns_query = """SELECT column_name
         FROM information_schema.columns 
         WHERE table_name = 'youtube';"""
@@ -353,14 +329,6 @@ def youtube_report():
 @app.route('/facebook_report', methods=["GET", "POST"])
 def facebook_report():
     if 'login' in session:
-        connection = psycopg2.connect(host='localhost',
-                                port='5432',
-                                user='postgres',
-                                password='root',
-                                database='socialanalytics')
-
-        cursor = connection.cursor()
-
         columns_query = """SELECT column_name
         FROM information_schema.columns 
         WHERE table_name = 'facebook';"""

@@ -9,18 +9,24 @@ import urllib
 sched = BlockingScheduler()
 locale.setlocale( locale.LC_ALL, 'en_US.UTF-8' )
 
+# connection = psycopg2.connect(host='localhost',
+#                                 port='5432',
+#                                 user='postgres',
+#                                 password='root',
+#                                 database='socialanalytics')
+
+connection = psycopg2.connect(host='ec2-174-129-18-210.compute-1.amazonaws.com',
+                                port='5432',
+                                user='eqftcddubymbhj',
+                                password='3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367',
+                                database='d51hcp79u206q8')
+
+cursor = connection.cursor()
+
 yesterday = datetime.now() - timedelta(days=1)
 
 @sched.scheduled_job('cron', day_of_week='mon-fri', hour=14)
 def twitter():
-    connection = psycopg2.connect(host='localhost',
-                                    port='5432',
-                                    user='postgres',
-                                    password='root',
-                                    database='socialanalytics')
-
-    cursor = connection.cursor()
-
     date_query = "INSERT INTO twitter (date) VALUES(%s) ON CONFLICT DO NOTHING"
     cursor.execute(date_query, (yesterday.strftime("%Y-%m-%d")))
 
@@ -71,14 +77,6 @@ def twitter():
 
 @sched.scheduled_job('cron', day_of_week='mon-fri', hour=14)
 def instagram():
-    connection = psycopg2.connect(host='localhost',
-                                    port='5432',
-                                    user='postgres',
-                                    password='root',
-                                    database='socialanalytics')
-
-    cursor = connection.cursor()
-
     date_query = "INSERT INTO instagram (date) VALUES(%s) ON CONFLICT DO NOTHING"
     cursor.execute(date_query, (yesterday.strftime("%Y-%m-%d")))
 
@@ -127,14 +125,6 @@ def instagram():
 
 @sched.scheduled_job('cron', day_of_week='mon-fri', hour=14)
 def youtube():
-    connection = psycopg2.connect(host='localhost',
-                                    port='5432',
-                                    user='postgres',
-                                    password='root',
-                                    database='socialanalytics')
-
-    cursor = connection.cursor()
-
     date_query = "INSERT INTO youtube (date) VALUES(%s) ON CONFLICT DO NOTHING"
     cursor.execute(date_query, (yesterday.strftime("%Y-%m-%d")))
 
@@ -185,14 +175,6 @@ def youtube():
 
 @sched.scheduled_job('cron', day_of_week='mon-fri', hour=14)
 def facebook():
-    connection = psycopg2.connect(host='localhost',
-                                    port='5432',
-                                    user='postgres',
-                                    password='root',
-                                    database='socialanalytics')
-
-    cursor = connection.cursor()
-
     date_query = "INSERT INTO facebook (date) VALUES(%s) ON CONFLICT DO NOTHING"
     cursor.execute(date_query, (yesterday.strftime("%Y-%m-%d"),))
 
