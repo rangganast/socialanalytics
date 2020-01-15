@@ -9,7 +9,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from werkzeug.security import generate_password_hash, check_password_hash
 
-# app = Flask(__name__, static_folder='static/')
+app = Flask(__name__, static_folder='static/')
 app = Flask(__name__, static_folder='/app/static/')
 app.config['SECRET_KEY'] = 'pbkdf2:sha256:150000$tD7V40IU$60ffd25fd78e9f3930e8fcbb3375580d6cd5a4e4c3798047cc611fe9e9366b0e'
 
@@ -18,13 +18,14 @@ app.config['SECRET_KEY'] = 'pbkdf2:sha256:150000$tD7V40IU$60ffd25fd78e9f3930e8fc
 #                                 user='postgres',
 #                                 password='root',
 #                                 database='socialanalytics')
+
 connection = psycopg2.connect(host='ec2-174-129-18-210.compute-1.amazonaws.com',
                                 port='5432',
                                 user='eqftcddubymbhj',
                                 password='3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367',
                                 database='d51hcp79u206q8')
 
-global cursor = connection.cursor()
+cursor = connection.cursor()
 names_query = "SELECT name FROM links_list"
 cursor.execute(names_query)
 
@@ -106,6 +107,20 @@ def logout():
 @app.route('/twitter_report', methods=["GET", "POST"])
 def twitter_report():
     if 'login' in session:
+        # connection = psycopg2.connect(host='localhost',
+        #                         port='5432',
+        #                         user='postgres',
+        #                         password='root',
+        #                         database='socialanalytics')
+
+        connection = psycopg2.connect(host='ec2-174-129-18-210.compute-1.amazonaws.com',
+                                        port='5432',
+                                        user='eqftcddubymbhj',
+                                        password='3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367',
+                                        database='d51hcp79u206q8')
+
+        cursor = connection.cursor()
+
         columns_query = """SELECT column_name
         FROM information_schema.columns 
         WHERE table_name = 'twitter';"""
@@ -176,6 +191,20 @@ def twitter_report():
 @app.route('/instagram_report', methods=["GET", "POST"])
 def instagram_report():
     if 'login' in session:
+        # connection = psycopg2.connect(host='localhost',
+        #                         port='5432',
+        #                         user='postgres',
+        #                         password='root',
+        #                         database='socialanalytics')
+
+        connection = psycopg2.connect(host='ec2-174-129-18-210.compute-1.amazonaws.com',
+                                        port='5432',
+                                        user='eqftcddubymbhj',
+                                        password='3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367',
+                                        database='d51hcp79u206q8')
+
+        cursor = connection.cursor()
+
         columns_query = """SELECT column_name
         FROM information_schema.columns 
         WHERE table_name = 'instagram';"""
@@ -252,6 +281,20 @@ def instagram_report():
 @app.route('/youtube_report', methods=["GET", "POST"])
 def youtube_report():
     if 'login' in session:
+        # connection = psycopg2.connect(host='localhost',
+        #                         port='5432',
+        #                         user='postgres',
+        #                         password='root',
+        #                         database='socialanalytics')
+
+        connection = psycopg2.connect(host='ec2-174-129-18-210.compute-1.amazonaws.com',
+                                        port='5432',
+                                        user='eqftcddubymbhj',
+                                        password='3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367',
+                                        database='d51hcp79u206q8')
+
+        cursor = connection.cursor()
+
         columns_query = """SELECT column_name
         FROM information_schema.columns 
         WHERE table_name = 'youtube';"""
@@ -328,6 +371,20 @@ def youtube_report():
 @app.route('/facebook_report', methods=["GET", "POST"])
 def facebook_report():
     if 'login' in session:
+        # connection = psycopg2.connect(host='localhost',
+        #                         port='5432',
+        #                         user='postgres',
+        #                         password='root',
+        #                         database='socialanalytics')
+
+        connection = psycopg2.connect(host='ec2-174-129-18-210.compute-1.amazonaws.com',
+                                        port='5432',
+                                        user='eqftcddubymbhj',
+                                        password='3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367',
+                                        database='d51hcp79u206q8')
+
+        cursor = connection.cursor()
+
         columns_query = """SELECT column_name
         FROM information_schema.columns 
         WHERE table_name = 'facebook';"""
