@@ -247,14 +247,6 @@ def instagram_report():
             date2 = datetime.strptime(tanggal2, '%d/%m/%Y')
             date2 = date2.strftime('%Y-%m-%d')
 
-            connection = psycopg2.connect(host='localhost',
-                                    port='5432',
-                                    user='postgres',
-                                    password='root',
-                                    database='socialanalytics')
-
-            cursor = connection.cursor()
-
             select_query = "SELECT date, " + accName + " FROM instagram WHERE date BETWEEN '" + date1 + "' AND '" + date2 + "';"
             cursor.execute(select_query)
 
@@ -337,14 +329,6 @@ def youtube_report():
             date2 = datetime.strptime(tanggal2, '%d/%m/%Y')
             date2 = date2.strftime('%Y-%m-%d')
 
-            connection = psycopg2.connect(host='localhost',
-                                    port='5432',
-                                    user='postgres',
-                                    password='root',
-                                    database='socialanalytics')
-
-            cursor = connection.cursor()
-
             select_query = "SELECT date, " + accName + " FROM youtube WHERE date BETWEEN '" + date1 + "' AND '" + date2 + "';"
             cursor.execute(select_query)
 
@@ -426,14 +410,6 @@ def facebook_report():
 
             date2 = datetime.strptime(tanggal2, '%d/%m/%Y')
             date2 = date2.strftime('%Y-%m-%d')
-
-            connection = psycopg2.connect(host='localhost',
-                                    port='5432',
-                                    user='postgres',
-                                    password='root',
-                                    database='socialanalytics')
-
-            cursor = connection.cursor()
 
             select_query = "SELECT date, " + accName + " FROM facebook WHERE date BETWEEN '" + date1 + "' AND '" + date2 + "';"
             cursor.execute(select_query)
