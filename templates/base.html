@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <title>Laporan Jumlah Followers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+    <style>      
+        .btn-primary,
+        .btn-primary:hover,
+        .btn-primary:active,
+        .btn-primary:visited,
+        .page-item.active .page-link {
+        background-color: #dc1e3c !important;
+        border-color: #dc1e3c !important;
+        }
+
+        th {
+        background-color: darkgray;
+        color: white;
+        }
+
+        a.bg-light:focus,
+        a.bg-light:hover,
+        button.bg-light:focus,
+        button.bg-light:hover {
+        background-color: #dc1e3c !important;
+        }
+
+        .list-group-item-action:focus,
+        .list-group-item-action:hover {
+        color: white;
+        }
+
+    </style>
+
+    <div class="d-flex" id="wrapper">
+        <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading text-center"><small><strong>Laporan Jumlah Followers</strong></small></div>
+        <div class="list-group list-group-flush">
+            <a href="#submenu1" class="nav-link list-group-item list-group-item-action bg-light" data-toggle="collapse"
+                data-target="#submenu1"><strong>Sosial Media <i class="fas fa-caret-down float-right"></i></strong></a>
+            <div class="collapse small" id="submenu1" aria-expanded="false">
+                <ul class="flex-column pl-2 nav">
+                    <li class="nav-item"><a href="{{ url_for('instagram_report') }}"
+                            class="nav-link list-group-item list-group-item-action bg-light"><i
+                                class="fab fa-instagram"></i> Instagram</a></li>
+                    <li class="nav-item"><a href="{{ url_for('twitter_report') }}"
+                            class="nav-link list-group-item list-group-item-action bg-light"> <i
+                                class="fab fa-twitter"></i> Twitter</a></li>
+                    <li class="nav-item"><a href="{{ url_for('youtube_report') }}"
+                            class="nav-link list-group-item list-group-item-action bg-light"><i
+                                class="fab fa-youtube"></i> Youtube</a></li>
+                    <li class="nav-item"><a href="{{ url_for('facebook_report') }}"
+                            class="nav-link list-group-item list-group-item-action bg-light"><i
+                                class="fab fa-facebook"></i> Facebook</a></li>
+                </ul>
+            </div>
+
+            <a href="#submenu2" class="nav-link list-group-item list-group-item-action bg-light" data-toggle="collapse"
+                data-target="#submenu2"><strong>Manajemen Akun <i class="fas fa-caret-down float-right"></i></strong></a>
+            <div class="collapse small" id="submenu2" aria-expanded="false">
+                <ul class="flex-column pl-2 nav">
+                    <li class="nav-item"><a href="{{ url_for('instagram_add') }}"
+                            class="nav-link list-group-item list-group-item-action bg-light"><i
+                                class="fab fa-instagram"></i> Instagram</a></li>
+                    <li class="nav-item"><a href="{{ url_for('twitter_add') }}"
+                            class="nav-link list-group-item list-group-item-action bg-light"> <i
+                                class="fab fa-twitter"></i> Twitter</a></li>
+                    <li class="nav-item"><a href="{{ url_for('youtube_add') }}"
+                            class="nav-link list-group-item list-group-item-action bg-light"><i
+                                class="fab fa-youtube"></i> Youtube</a></li>
+                    <li class="nav-item"><a href="{{ url_for('facebook_add') }}"
+                            class="nav-link list-group-item list-group-item-action bg-light"><i
+                                class="fab fa-facebook"></i> Facebook</a></li>
+                </ul>
+            </div>
+
+            <a href="#submenu3" class="nav-link list-group-item list-group-item-action bg-light" data-toggle="collapse"
+                data-target="#submenu3"><strong>Manajemen User <i class="fas fa-caret-down float-right"></i></strong></a>
+            <div class="collapse small" id="submenu3" aria-expanded="false">
+                <ul class="flex-column pl-2 nav">
+                    <li class="nav-item"><a href="{{ url_for('instagram_report') }}"
+                            class="nav-link list-group-item list-group-item-action bg-light"><i
+                                class="fab fa-instagram"></i> Instagram</a></li>
+                    <li class="nav-item"><a href="{{ url_for('twitter_report') }}"
+                            class="nav-link list-group-item list-group-item-action bg-light"> <i
+                                class="fab fa-twitter"></i> Twitter</a></li>
+                </ul>
+            </div>
+
+        </div>
+        </div>
+
+        <div id="page-content-wrapper">
+        <div class="container-fluid">
+            {% block content %}{% endblock content %}
+        </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>

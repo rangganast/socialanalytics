@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<style>
+		fieldset.scheduler-border {
+		border: 1px groove #ddd !important;
+		padding: 0 1.4em 1.4em 1.4em !important;
+		margin: 0 0 1.5em 0 !important;
+		-webkit-box-shadow: 0px 0px 0px 0px #000;
+		box-shadow: 0px 0px 0px 0px #000;
+		}
+
+		legend.scheduler-border {
+		font-size: 1.2em !important;
+		font-weight: bold !important;
+		text-align: left !important;
+		width:auto;
+		padding:0 10px;
+		border-bottom:none;
+		}
+
+	</style>
+
+	<!-- MAIN -->
+	<div class="container mt-3">
+		<h3 class="mb-3 text-center">Laporan Jumlah Pengikut Media Sosial ({{title}})</h3>
+
+		<form method="POST">
+			<div class="container">
+			<fieldset class="scheduler-border">
+
+				<legend class="scheduler-border">Filter</legend>
+
+					<div class="control-group">
+						<div class="row">
+							<div class="form-group form-inline">
+								<label for="selectAkun">Nama Akun : </label>
+								<select name="namaAkun" class="form-control form-control-sm ml-3" id="selectAkun">
+									
+									{% for name in names %}
+										<option {% if name == accName %} selected {% endif %}>{{name}}</option>
+									{% endfor %}
+										
+								</select>
+							</div>
+						</div>
+					</div>
+	
+					<div class="control-group">
+						<div class="row">
+							<div class="form-group form-inline">
+								<label for="datepicker1">Tanggal Cari :</label>
+								<input name="tanggal1" class="form-control form-control-sm ml-3" id="datepicker1" placeholder="DD/MM/YY"
+									autocomplete="off" required
+									value="{{tanggal1}}" />
+								<script>
+									$('#datepicker1').datepicker({
+										uiLibrary: 'bootstrap4',
+										format: 'dd/mm/yyyy'
+									});
+								</script>
+
+								<label class="ml-3" for="datepicker2"> s/d </label>
+								<input name="tanggal2" class="form-control form-control-sm ml-3" id="datepicker2" placeholder="DD/MM/YY"
+									autocomplete="off" required
+									value="{{tanggal2}}" />
+								<script>
+									$('#datepicker2').datepicker({
+										uiLibrary: 'bootstrap4',
+										format: 'dd/mm/yyyy'
+									});
+								</script>
+
+								<button name="filter" type="submit" class="btn btn-sm btn-primary ml-3">Terapkan</button>
+							</div>
+						</div>
+					</div>	
+				</fieldset>
+			</div>
+		</form>
+		
+		{% if columns %}
+		<h5>10 Data Terbaru: {{title}}</h5>
+		<table id="followersTable" class="table table-sm table-striped table-bordered">
+			<thead>
+				{% for col in columns %}
+					<th scope="col">{{col}}</th>
+				{% endfor %}
+			</thead>
+			<tbody>
+				{% for row in body_table %}
+				<tr>
+					{% for i in range(row|length) %}
+					<td>				
+					{% if row[i] == None %}
+					{% else %}
+					{{row[i]}}
+					{% endif %}
+					</td>
+					{% endfor %}
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		
+		<script>
+			$(document).ready(function() {
+			$('#followersTable').DataTable();
+			} );
+		</script>
+		{% endif %}
+			
+		{% if tanggal1 %}
+		<h5>Jumlah followers akun: {{accName}}</h5>
+		<table id="followersTable" class="table table-sm table-striped table-bordered">
+			<thead>
+				<th scope="col">date</th>
+				<th scope="col">followers</th>
+			</thead>
+			<tbody>
+				{% for i in range(date|length) %}
+				<tr>
+					<td>{{date[i]}}</td>
+					<td>
+					{% if followers[i] == None %}
+					{% else %}
+					{{followers[i]}}
+					{% endif %}
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		
+		<script>
+			$(document).ready(function() {
+			$('#followersTable').DataTable();
+			} );
+		</script>
+		{% endif %}
+			
+	</div>
+
+{% endblock content %}
+    

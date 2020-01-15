@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<style>
+		fieldset.scheduler-border {
+		border: 1px groove #ddd !important;
+		padding: 0 1.4em 1.4em 1.4em !important;
+		margin: 0 0 1.5em 0 !important;
+		-webkit-box-shadow: 0px 0px 0px 0px #000;
+		box-shadow: 0px 0px 0px 0px #000;
+		}
+
+		legend.scheduler-border {
+		font-size: 1.2em !important;
+		font-weight: bold !important;
+		text-align: left !important;
+		width:auto;
+		padding:0 10px;
+		border-bottom:none;
+		}
+	</style>
+
+	<!-- MAIN -->
+	<div class="container mt-3">
+		<h3 class="mb-3 text-center">Manajemen Akun ({{title}})</h3>
+
+		<form method="POST">
+			<fieldset class="scheduler-border">
+				<legend class="scheduler-border">Tambah Akun</legend>
+				<div class="container">
+
+					<div class="control-group">
+						<div class="row">
+							<div class="form-group form-inline">
+								<label for="tambahAkun">Nama Akun :</label>
+								<input id="tambahAkun" class="form-control form-control-sm ml-3" type="text">
+								<button name="tambahAkun" type="submit" class="btn btn-sm btn-primary ml-3">Tambah Akun</button>
+							</div>
+						</div>
+					</div>
+			</fieldset>
+		</form>
+
+		<form method="POST">
+			<fieldset class="scheduler-border">
+				<legend class="scheduler-border">Filter</legend>
+				<div class="container">
+
+					<div class="control-group">
+						<div class="row">
+							<div class="form-group form-inline">
+								<label for="datepicker1">Tanggal Createdate :</label>
+								<input name="tanggal1" class="form-control form-control-sm ml-3" id="datepicker1" placeholder="DD/MM/YY"
+									autocomplete="off"
+									required value="{{tanggal1}}" />
+								<script>
+									$('#datepicker1').datepicker({
+										uiLibrary: 'bootstrap4',
+										format: 'dd/mm/yyyy'
+									});
+								</script>
+
+								<label class="ml-3" for="datepicker2"> s/d </label>
+								<input name="tanggal2" class="form-control form-control-sm ml-3" id="datepicker2" placeholder="DD/MM/YY"
+									autocomplete="off"
+									required value="{{tanggal2}}" />
+								<script>
+									$('#datepicker2').datepicker({
+										uiLibrary: 'bootstrap4',
+										format: 'dd/mm/yyyy'
+									});
+								</script>
+
+								<button name="filter" type="submit" class="btn btn-sm btn-primary ml-3">Terapkan</button>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</fieldset>
+		</form>
+		
+		{% if followers %}
+		<h4>Jumlah pengikut akun: {{accName}}</h4>
+		<table class="table table-striped">
+			<thead>
+				<th scope="col">Date</th>
+				<th scope="col">Followers</th>
+			</thead>
+			<tbody>
+				{% for i in range(date|length) %}
+				<tr>
+					<td>{{date[i]}}</td>
+					<td>{{followers[i]}}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% endif %}
+			
+	</div>
+
+{% endblock content %}
+    
