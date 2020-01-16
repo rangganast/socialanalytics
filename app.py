@@ -157,7 +157,7 @@ def login():
     if 'login' in session:
         return redirect(url_for('twitter_report'))
     else:
-        # if request.method == 'POST':
+        if request.method == 'POST':
         #     engine = create_engine("postgresql+psycopg2://postgres:root@localhost/socialanalytics")
             engine = create_engine("postgres://eqftcddubymbhj:3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367@ec2-174-129-18-210.compute-1.amazonaws.com:5432/d51hcp79u206q8")
             db = scoped_session(sessionmaker(bind=engine))
