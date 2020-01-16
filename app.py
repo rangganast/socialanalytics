@@ -9,21 +9,21 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from werkzeug.security import generate_password_hash, check_password_hash
 
-app = Flask(__name__, static_folder='static/')
-# app = Flask(__name__, static_folder='/app/static/')
+# app = Flask(__name__, static_folder='static/')
+app = Flask(__name__, static_folder='/app/static/')
 app.config['SECRET_KEY'] = 'pbkdf2:sha256:150000$tD7V40IU$60ffd25fd78e9f3930e8fcbb3375580d6cd5a4e4c3798047cc611fe9e9366b0e'
 
-connection = psycopg2.connect(host='localhost',
-                                port='5432',
-                                user='postgres',
-                                password='root',
-                                database='socialanalytics')
-
-# connection = psycopg2.connect(host='ec2-174-129-18-210.compute-1.amazonaws.com',
+# connection = psycopg2.connect(host='localhost',
 #                                 port='5432',
-#                                 user='eqftcddubymbhj',
-#                                 password='3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367',
-#                                 database='d51hcp79u206q8')
+#                                 user='postgres',
+#                                 password='root',
+#                                 database='socialanalytics')
+
+connection = psycopg2.connect(host='ec2-174-129-18-210.compute-1.amazonaws.com',
+                                port='5432',
+                                user='eqftcddubymbhj',
+                                password='3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367',
+                                database='d51hcp79u206q8')
 
 cursor = connection.cursor()
 names_query = "SELECT name FROM links_list"
@@ -38,17 +38,17 @@ for tup in names_result:
 @app.route('/', methods=["GET", "POST"])
 def home():
     if 'login' in session:
-        connection = psycopg2.connect(host='localhost',
-                    port='5432',
-                    user='postgres',
-                    password='root',
-                    database='socialanalytics')
+        # connection = psycopg2.connect(host='localhost',
+        #             port='5432',
+        #             user='postgres',
+        #             password='root',
+        #             database='socialanalytics')
 
-        # connection = psycopg2.connect(host='ec2-174-129-18-210.compute-1.amazonaws.com',
-        #                                 port='5432',
-        #                                 user='eqftcddubymbhj',
-        #                                 password='3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367',
-        #                                 database='d51hcp79u206q8')
+        connection = psycopg2.connect(host='ec2-174-129-18-210.compute-1.amazonaws.com',
+                                        port='5432',
+                                        user='eqftcddubymbhj',
+                                        password='3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367',
+                                        database='d51hcp79u206q8')
 
         cursor = connection.cursor()
 
@@ -157,9 +157,9 @@ def login():
     if 'login' in session:
         return redirect(url_for('twitter_report'))
     else:
-        if request.method == 'POST':
-            engine = create_engine("postgresql+psycopg2://postgres:root@localhost/socialanalytics")
-            # engine = create_engine("postgres://eqftcddubymbhj:3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367@ec2-174-129-18-210.compute-1.amazonaws.com:5432/d51hcp79u206q8")
+        # if request.method == 'POST':
+        #     engine = create_engine("postgresql+psycopg2://postgres:root@localhost/socialanalytics")
+            engine = create_engine("postgres://eqftcddubymbhj:3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367@ec2-174-129-18-210.compute-1.amazonaws.com:5432/d51hcp79u206q8")
             db = scoped_session(sessionmaker(bind=engine))
 
             username = request.form.get('username')
@@ -215,17 +215,17 @@ def logout():
 @app.route('/twitter_report', methods=["GET", "POST"])
 def twitter_report():
     if 'login' in session:
-        connection = psycopg2.connect(host='localhost',
-                                port='5432',
-                                user='postgres',
-                                password='root',
-                                database='socialanalytics')
+        # connection = psycopg2.connect(host='localhost',
+        #                         port='5432',
+        #                         user='postgres',
+        #                         password='root',
+        #                         database='socialanalytics')
 
-        # connection = psycopg2.connect(host='ec2-174-129-18-210.compute-1.amazonaws.com',
-        #                                 port='5432',
-        #                                 user='eqftcddubymbhj',
-        #                                 password='3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367',
-        #                                 database='d51hcp79u206q8')
+        connection = psycopg2.connect(host='ec2-174-129-18-210.compute-1.amazonaws.com',
+                                        port='5432',
+                                        user='eqftcddubymbhj',
+                                        password='3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367',
+                                        database='d51hcp79u206q8')
 
         cursor = connection.cursor()
 
@@ -299,17 +299,17 @@ def twitter_report():
 @app.route('/instagram_report', methods=["GET", "POST"])
 def instagram_report():
     if 'login' in session:
-        connection = psycopg2.connect(host='localhost',
-                                port='5432',
-                                user='postgres',
-                                password='root',
-                                database='socialanalytics')
+        # connection = psycopg2.connect(host='localhost',
+        #                         port='5432',
+        #                         user='postgres',
+        #                         password='root',
+        #                         database='socialanalytics')
 
-        # connection = psycopg2.connect(host='ec2-174-129-18-210.compute-1.amazonaws.com',
-        #                                 port='5432',
-        #                                 user='eqftcddubymbhj',
-        #                                 password='3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367',
-        #                                 database='d51hcp79u206q8')
+        connection = psycopg2.connect(host='ec2-174-129-18-210.compute-1.amazonaws.com',
+                                        port='5432',
+                                        user='eqftcddubymbhj',
+                                        password='3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367',
+                                        database='d51hcp79u206q8')
 
         cursor = connection.cursor()
 
@@ -381,17 +381,17 @@ def instagram_report():
 @app.route('/youtube_report', methods=["GET", "POST"])
 def youtube_report():
     if 'login' in session:
-        connection = psycopg2.connect(host='localhost',
-                                port='5432',
-                                user='postgres',
-                                password='root',
-                                database='socialanalytics')
+        # connection = psycopg2.connect(host='localhost',
+        #                         port='5432',
+        #                         user='postgres',
+        #                         password='root',
+        #                         database='socialanalytics')
 
-        # connection = psycopg2.connect(host='ec2-174-129-18-210.compute-1.amazonaws.com',
-        #                                 port='5432',
-        #                                 user='eqftcddubymbhj',
-        #                                 password='3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367',
-        #                                 database='d51hcp79u206q8')
+        connection = psycopg2.connect(host='ec2-174-129-18-210.compute-1.amazonaws.com',
+                                        port='5432',
+                                        user='eqftcddubymbhj',
+                                        password='3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367',
+                                        database='d51hcp79u206q8')
 
         cursor = connection.cursor()
 
@@ -463,17 +463,17 @@ def youtube_report():
 @app.route('/facebook_report', methods=["GET", "POST"])
 def facebook_report():
     if 'login' in session:
-        connection = psycopg2.connect(host='localhost',
-                                port='5432',
-                                user='postgres',
-                                password='root',
-                                database='socialanalytics')
+        # connection = psycopg2.connect(host='localhost',
+        #                         port='5432',
+        #                         user='postgres',
+        #                         password='root',
+        #                         database='socialanalytics')
 
-        # connection = psycopg2.connect(host='ec2-174-129-18-210.compute-1.amazonaws.com',
-        #                                 port='5432',
-        #                                 user='eqftcddubymbhj',
-        #                                 password='3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367',
-        #                                 database='d51hcp79u206q8')
+        connection = psycopg2.connect(host='ec2-174-129-18-210.compute-1.amazonaws.com',
+                                        port='5432',
+                                        user='eqftcddubymbhj',
+                                        password='3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367',
+                                        database='d51hcp79u206q8')
 
         cursor = connection.cursor()
 
