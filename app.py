@@ -155,7 +155,7 @@ def home():
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if 'login' in session:
-        return redirect(url_for('twitter_report'))
+        return redirect(url_for('home'))
     else:
         if request.method == 'POST':
         #     engine = create_engine("postgresql+psycopg2://postgres:root@localhost/socialanalytics")
