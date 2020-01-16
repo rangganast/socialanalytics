@@ -105,7 +105,9 @@
 		
 		<script>
 			$(document).ready(function() {
-			$('#followersTable').DataTable();
+			$('#followersTable').DataTable({
+				"bInfo": false
+			});
 			} );
 		</script>
 		{% endif %}
@@ -134,7 +136,9 @@
 		
 		<script>
 			$(document).ready(function() {
-			$('#followersTable').DataTable();
+			$('#followersTable').DataTable({
+				"bInfo": false
+			});
 			} );
 		</script>
 		{% endif %}
