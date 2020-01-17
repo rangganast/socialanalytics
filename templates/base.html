@@ -100,7 +100,7 @@
                 </ul>
             </div>
 
-            <a href="#submenu3" class="nav-link list-group-item list-group-item-action bg-light" data-toggle="collapse"
+            <!-- <a href="#submenu3" class="nav-link list-group-item list-group-item-action bg-light" data-toggle="collapse"
                 data-target="#submenu3"><strong>Manajemen User <i class="fas fa-caret-down float-right"></i></strong></a>
             <div class="collapse small" id="submenu3" aria-expanded="false">
                 <ul class="flex-column pl-2 nav">
@@ -111,7 +111,15 @@
                             class="nav-link list-group-item list-group-item-action bg-light"> <i
                                 class="fab fa-twitter"></i> Twitter</a></li>
                 </ul>
-            </div>
+            </div> -->
+
+            <a href="#" class="list-group-item list-group-item-action bg-light">
+                 <strong>Manajemen User</strong>
+            </a>
+
+            <a href="{{ url_for('logout') }}" class="list-group-item list-group-item-action bg-light">
+                 <strong>Logout</strong>
+            </a>
 
         </div>
         </div>

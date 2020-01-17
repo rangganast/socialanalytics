@@ -80,22 +80,33 @@
 			</fieldset>
 		</form>
 		
-		{% if followers %}
-		<h4>Jumlah pengikut akun: {{accName}}</h4>
-		<table class="table table-striped">
+		{% if names %}
+		<table id="accountTable" class="table table-sm table-striped table-bordered">
 			<thead>
-				<th scope="col">Date</th>
-				<th scope="col">Followers</th>
+				<th scope="col">Username</th>
+				<th scope="col">Createdate</th>
 			</thead>
 			<tbody>
-				{% for i in range(date|length) %}
+				{% for i in range(names|length) %}
+				
+				{% if dates[i] == None %}
+				{% else %}
 				<tr>
-					<td>{{date[i]}}</td>
-					<td>{{followers[i]}}</td>
+					<td>{{names[i]}}
+					<td>{{dates[i]}}
 				</tr>
+				{% endif %}
+					
 				{% endfor %}
 			</tbody>
 		</table>
+		<script>
+			$(document).ready(function () {
+				$('#accountTable').DataTable({
+					"bInfo": false
+				});
+			});
+		</script>
 		{% endif %}
 			
 	</div>

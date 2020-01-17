@@ -546,19 +546,271 @@ def facebook_report():
 
 @app.route('/twitter_add', methods=["GET", "POST"])
 def twitter_add():
-    return render_template('add.html', title='Twitter', names=names)
+    if 'login' in session:
+        # connection = psycopg2.connect(host='localhost',
+        #                         port='5432',
+        #                         user='postgres',
+        #                         password='root',
+        #                         database='socialanalytics')
+
+        connection = psycopg2.connect(host='ec2-174-129-18-210.compute-1.amazonaws.com',
+                                        port='5432',
+                                        user='eqftcddubymbhj',
+                                        password='3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367',
+                                        database='d51hcp79u206q8')    
+
+        cursor = connection.cursor()
+
+        if 'filter' in request.form and request.method == 'POST':
+            tanggal1 = request.form.get('tanggal1')
+            tanggal2 = request.form.get('tanggal2')
+
+            date1 = datetime.strptime(tanggal1, '%d/%m/%Y')
+            date1 = date1.strftime('%Y-%m-%d')
+
+            date2 = datetime.strptime(tanggal2, '%d/%m/%Y')
+            date2 = date2.strftime('%Y-%m-%d')
+        
+            date_query = "SELECT name, twitter FROM createdate WHERE twitter BETWEEN '" + date1 + "' AND '" + date2 + "';"
+            cursor.execute(date_query)
+
+            date_result = cursor.fetchall()
+
+            names = []
+            dates = []
+            for tup in date_result:
+                names.append(tup[0])
+
+                if tup[1] == None:
+                    dates.append(tup[1])
+                else:
+                    d = datetime.strptime(str(tup[1]), "%Y-%m-%d")
+                    d = d.strftime("%d/%m/%Y")
+                    dates.append(d)
+
+            return render_template('add.html', title='Twitter', names=names, dates=dates, tanggal1=tanggal1, tanggal2=tanggal2)
+
+        date_query = "SELECT name, twitter FROM createdate ORDER BY twitter DESC LIMIT 5;"
+        cursor.execute(date_query)
+
+        date_result = cursor.fetchall()
+
+        names = []
+        dates = []
+        for tup in date_result:
+            names.append(tup[0])
+
+            if tup[1] == None:
+                dates.append(tup[1])
+            else:
+                d = datetime.strptime(str(tup[1]), "%Y-%m-%d")
+                d = d.strftime("%d/%m/%Y")
+                dates.append(d)
+
+        return render_template('add.html', title='Twitter', names=names, dates=dates)
+    else:
+        abort(404)
 
 @app.route('/instagram_add', methods=["GET", "POST"])
 def instagram_add():
-    return render_template('add.html', title='Instagram', names=names)
+    if 'login' in session:
+        # connection = psycopg2.connect(host='localhost',
+        #                         port='5432',
+        #                         user='postgres',
+        #                         password='root',
+        #                         database='socialanalytics')
+
+        connection = psycopg2.connect(host='ec2-174-129-18-210.compute-1.amazonaws.com',
+                                        port='5432',
+                                        user='eqftcddubymbhj',
+                                        password='3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367',
+                                        database='d51hcp79u206q8')  
+
+        cursor = connection.cursor()
+
+        if 'filter' in request.form and request.method == 'POST':
+            tanggal1 = request.form.get('tanggal1')
+            tanggal2 = request.form.get('tanggal2')
+
+            date1 = datetime.strptime(tanggal1, '%d/%m/%Y')
+            date1 = date1.strftime('%Y-%m-%d')
+
+            date2 = datetime.strptime(tanggal2, '%d/%m/%Y')
+            date2 = date2.strftime('%Y-%m-%d')
+        
+            date_query = "SELECT name, instagram FROM createdate WHERE instagram BETWEEN '" + date1 + "' AND '" + date2 + "';"
+            cursor.execute(date_query)
+
+            date_result = cursor.fetchall()
+
+            names = []
+            dates = []
+            for tup in date_result:
+                names.append(tup[0])
+
+                if tup[1] == None:
+                    dates.append(tup[1])
+                else:
+                    d = datetime.strptime(str(tup[1]), "%Y-%m-%d")
+                    d = d.strftime("%d/%m/%Y")
+                    dates.append(d)
+
+            return render_template('add.html', title='Instagram', names=names, dates=dates, tanggal1=tanggal1, tanggal2=tanggal2)
+
+        date_query = "SELECT name, instagram FROM createdate ORDER BY twitter DESC LIMIT 5;"
+        cursor.execute(date_query)
+
+        date_result = cursor.fetchall()
+
+        names = []
+        dates = []
+        for tup in date_result:
+            names.append(tup[0])
+
+            if tup[1] == None:
+                dates.append(tup[1])
+            else:
+                d = datetime.strptime(str(tup[1]), "%Y-%m-%d")
+                d = d.strftime("%d/%m/%Y")
+                dates.append(d)
+
+        return render_template('add.html', title='Instagram', names=names, dates=dates)
+    else:
+        abort(404)
 
 @app.route('/youtube_add', methods=["GET", "POST"])
 def youtube_add():
-    return render_template('add.html', title='Youtube', names=names)
+    if 'login' in session:
+        # connection = psycopg2.connect(host='localhost',
+        #                         port='5432',
+        #                         user='postgres',
+        #                         password='root',
+        #                         database='socialanalytics')
+
+        connection = psycopg2.connect(host='ec2-174-129-18-210.compute-1.amazonaws.com',
+                                        port='5432',
+                                        user='eqftcddubymbhj',
+                                        password='3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367',
+                                        database='d51hcp79u206q8')  
+
+        cursor = connection.cursor()
+
+        if 'filter' in request.form and request.method == 'POST':
+            tanggal1 = request.form.get('tanggal1')
+            tanggal2 = request.form.get('tanggal2')
+
+            date1 = datetime.strptime(tanggal1, '%d/%m/%Y')
+            date1 = date1.strftime('%Y-%m-%d')
+
+            date2 = datetime.strptime(tanggal2, '%d/%m/%Y')
+            date2 = date2.strftime('%Y-%m-%d')
+        
+            date_query = "SELECT name, youtube FROM createdate WHERE youtube BETWEEN '" + date1 + "' AND '" + date2 + "';"
+            cursor.execute(date_query)
+
+            date_result = cursor.fetchall()
+
+            names = []
+            dates = []
+            for tup in date_result:
+                names.append(tup[0])
+
+                if tup[1] == None:
+                    dates.append(tup[1])
+                else:
+                    d = datetime.strptime(str(tup[1]), "%Y-%m-%d")
+                    d = d.strftime("%d/%m/%Y")
+                    dates.append(d)
+
+            return render_template('add.html', title='Youtube', names=names, dates=dates, tanggal1=tanggal1, tanggal2=tanggal2)
+
+        date_query = "SELECT name, youtube FROM createdate ORDER BY twitter DESC LIMIT 5;"
+        cursor.execute(date_query)
+
+        date_result = cursor.fetchall()
+
+        names = []
+        dates = []
+        for tup in date_result:
+            names.append(tup[0])
+
+            if tup[1] == None:
+                dates.append(tup[1])
+            else:
+                d = datetime.strptime(str(tup[1]), "%Y-%m-%d")
+                d = d.strftime("%d/%m/%Y")
+                dates.append(d)
+
+        return render_template('add.html', title='Youtube', names=names, dates=dates)
+    else:
+        abort(404)
 
 @app.route('/facebook_add', methods=["GET", "POST"])
 def facebook_add():
-    return render_template('add.html', title='Facebook', names=names)
+    if 'login' in session:
+        # connection = psycopg2.connect(host='localhost',
+        #                         port='5432',
+        #                         user='postgres',
+        #                         password='root',
+        #                         database='socialanalytics')
+
+        connection = psycopg2.connect(host='ec2-174-129-18-210.compute-1.amazonaws.com',
+                                        port='5432',
+                                        user='eqftcddubymbhj',
+                                        password='3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367',
+                                        database='d51hcp79u206q8')  
+
+        cursor = connection.cursor()
+
+        if 'filter' in request.form and request.method == 'POST':
+            tanggal1 = request.form.get('tanggal1')
+            tanggal2 = request.form.get('tanggal2')
+
+            date1 = datetime.strptime(tanggal1, '%d/%m/%Y')
+            date1 = date1.strftime('%Y-%m-%d')
+
+            date2 = datetime.strptime(tanggal2, '%d/%m/%Y')
+            date2 = date2.strftime('%Y-%m-%d')
+        
+            date_query = "SELECT name, facebook FROM createdate WHERE facebook BETWEEN '" + date1 + "' AND '" + date2 + "';"
+            cursor.execute(date_query)
+
+            date_result = cursor.fetchall()
+
+            names = []
+            dates = []
+            for tup in date_result:
+                names.append(tup[0])
+
+                if tup[1] == None:
+                    dates.append(tup[1])
+                else:
+                    d = datetime.strptime(str(tup[1]), "%Y-%m-%d")
+                    d = d.strftime("%d/%m/%Y")
+                    dates.append(d)
+
+            return render_template('add.html', title='Facebook', names=names, dates=dates, tanggal1=tanggal1, tanggal2=tanggal2)
+
+        date_query = "SELECT name, facebook FROM createdate ORDER BY twitter DESC LIMIT 5;"
+        cursor.execute(date_query)
+
+        date_result = cursor.fetchall()
+
+        names = []
+        dates = []
+        for tup in date_result:
+            names.append(tup[0])
+
+            if tup[1] == None:
+                dates.append(tup[1])
+            else:
+                d = datetime.strptime(str(tup[1]), "%Y-%m-%d")
+                d = d.strftime("%d/%m/%Y")
+                dates.append(d)
+
+        return render_template('add.html', title='Facebook', names=names, dates=dates)
+    else:
+        abort(404)
 
 # USER MANAGEMENT SECTION
 
