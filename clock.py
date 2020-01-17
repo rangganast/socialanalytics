@@ -8,7 +8,7 @@ import urllib
 
 sched = BlockingScheduler()
 
-@sched.scheduled_job('cron', hour=8)
+@sched.scheduled_job('cron', hour=8, minute=35)
 def twitter():
     locale.setlocale( locale.LC_ALL, 'en_US.UTF-8' )
     # connection = psycopg2.connect(host='localhost',
@@ -78,7 +78,7 @@ def twitter():
 
     connection.close()
 
-@sched.scheduled_job('cron', hour=8)
+@sched.scheduled_job('cron', hour=8, minute=35)
 def instagram():
     locale.setlocale( locale.LC_ALL, 'en_US.UTF-8' )
     # connection = psycopg2.connect(host='localhost',
@@ -146,7 +146,7 @@ def instagram():
 
     connection.close()
 
-@sched.scheduled_job('cron', hour=8)
+@sched.scheduled_job('cron', hour=8, minute=35)
 def youtube():
     locale.setlocale( locale.LC_ALL, 'en_US.UTF-8' )
     # connection = psycopg2.connect(host='localhost',
@@ -216,7 +216,7 @@ def youtube():
 
     connection.close()
 
-@sched.scheduled_job('cron', hour=8)
+@sched.scheduled_job('cron', hour=8, minute=35)
 def facebook():
     locale.setlocale( locale.LC_ALL, 'en_US.UTF-8' )
     # connection = psycopg2.connect(host='localhost',
