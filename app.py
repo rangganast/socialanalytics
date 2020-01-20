@@ -561,6 +561,66 @@ def twitter_add():
 
         cursor = connection.cursor()
 
+        if 'tambahAkun' in request.form and request.method == 'POST':
+            akun = request.form.get('namaAkun')
+            link = request.form.get('linkInput')
+
+            columns_query = """SELECT column_name
+            FROM information_schema.columns 
+            WHERE table_name = 'twitter';"""
+
+            cursor.execute(columns_query)
+
+            columns_result = cursor.fetchall()
+
+            columns = []
+            for column in columns_result:
+                columns.append(column[0])
+
+            if akun in columns:
+                return redirect(url_for('twitter_add', alert='account_exists'))
+            else:
+                select_query = "SELECT name FROM createdate WHERE name='" + akun + "';"
+                cursor.execute(select_query)
+
+                select_result = cursor.fetchone()
+
+                if select_result == None:
+                    insert_query = "INSERT INTO createdate(name, twitter) VALUES (%s, %s)"
+                    cursor.execute(insert_query, (akun, datetime.now().strftime("%Y-%m-%d"),))
+
+                    connection.commit()
+
+                else:
+                    update_query = "UPDATE createdate SET twitter=%s WHERE name='" + akun + "';"
+                    cursor.execute(update_query, (datetime.now().strftime("%Y-%m-%d"),))
+
+                    connection.commit()
+
+                select_query2 = "SELECT name FROM links_list WHERE name='" + akun + "';"
+                cursor.execute(select_query2)
+
+                select_result2 = cursor.fetchone()
+
+                if select_result2 == None:
+                    insert_query2 = "INSERT INTO links_list(name, twitter) VALUES(%s, %s)"
+                    cursor.execute(insert_query2, (akun, link,))
+
+                    connection.commit()
+
+                else:
+                    update_query2 = "UPDATE links_list SET twitter=%s WHERE name=%s;"
+                    cursor.execute(update_query2, (link, akun,))
+
+                    connection.commit()
+
+                insert_query3 = "ALTER TABLE twitter ADD COLUMN " + akun + " BIGINT;"
+                cursor.execute(insert_query3)
+
+                connection.commit()
+
+                return redirect(url_for('twitter_add', alert='add_success'))
+                
         if 'filter' in request.form and request.method == 'POST':
             tanggal1 = request.form.get('tanggal1')
             tanggal2 = request.form.get('tanggal2')
@@ -627,6 +687,66 @@ def instagram_add():
                                         database='d51hcp79u206q8')  
 
         cursor = connection.cursor()
+
+        if 'tambahAkun' in request.form and request.method == 'POST':
+            akun = request.form.get('namaAkun')
+            link = request.form.get('linkInput')
+
+            columns_query = """SELECT column_name
+            FROM information_schema.columns 
+            WHERE table_name = 'instagram';"""
+
+            cursor.execute(columns_query)
+
+            columns_result = cursor.fetchall()
+
+            columns = []
+            for column in columns_result:
+                columns.append(column[0])
+
+            if akun in columns:
+                return redirect(url_for('instagram_add', alert='account_exists'))
+            else:
+                select_query = "SELECT name FROM createdate WHERE name='" + akun + "';"
+                cursor.execute(select_query)
+
+                select_result = cursor.fetchone()
+
+                if select_result == None:
+                    insert_query = "INSERT INTO createdate(name, instagram) VALUES (%s, %s)"
+                    cursor.execute(insert_query, (akun, datetime.now().strftime("%Y-%m-%d"),))
+
+                    connection.commit()
+
+                else:
+                    update_query = "UPDATE createdate SET instagram=%s WHERE name='" + akun + "';"
+                    cursor.execute(update_query, (datetime.now().strftime("%Y-%m-%d"),))
+
+                    connection.commit()
+
+                select_query2 = "SELECT name FROM links_list WHERE name='" + akun + "';"
+                cursor.execute(select_query2)
+
+                select_result2 = cursor.fetchone()
+
+                if select_result2 == None:
+                    insert_query2 = "INSERT INTO links_list(name, instagram) VALUES(%s, %s)"
+                    cursor.execute(insert_query2, (akun, link,))
+
+                    connection.commit()
+
+                else:
+                    update_query2 = "UPDATE links_list SET instagram=%s WHERE name=%s;"
+                    cursor.execute(update_query2, (link, akun,))
+
+                    connection.commit()
+
+                insert_query3 = "ALTER TABLE instagram ADD COLUMN " + akun + " BIGINT;"
+                cursor.execute(insert_query3)
+
+                connection.commit()
+
+                return redirect(url_for('instagram_add', alert='add_success'))
 
         if 'filter' in request.form and request.method == 'POST':
             tanggal1 = request.form.get('tanggal1')
@@ -695,6 +815,66 @@ def youtube_add():
 
         cursor = connection.cursor()
 
+        if 'tambahAkun' in request.form and request.method == 'POST':
+            akun = request.form.get('namaAkun')
+            link = request.form.get('linkInput')
+
+            columns_query = """SELECT column_name
+            FROM information_schema.columns 
+            WHERE table_name = 'youtube';"""
+
+            cursor.execute(columns_query)
+
+            columns_result = cursor.fetchall()
+
+            columns = []
+            for column in columns_result:
+                columns.append(column[0])
+
+            if akun in columns:
+                return redirect(url_for('youtube_add', alert='account_exists'))
+            else:
+                select_query = "SELECT name FROM createdate WHERE name='" + akun + "';"
+                cursor.execute(select_query)
+
+                select_result = cursor.fetchone()
+
+                if select_result == None:
+                    insert_query = "INSERT INTO createdate(name, youtube) VALUES (%s, %s)"
+                    cursor.execute(insert_query, (akun, datetime.now().strftime("%Y-%m-%d"),))
+
+                    connection.commit()
+
+                else:
+                    update_query = "UPDATE createdate SET youtube=%s WHERE name='" + akun + "';"
+                    cursor.execute(update_query, (datetime.now().strftime("%Y-%m-%d"),))
+
+                    connection.commit()
+
+                select_query2 = "SELECT name FROM links_list WHERE name='" + akun + "';"
+                cursor.execute(select_query2)
+
+                select_result2 = cursor.fetchone()
+
+                if select_result2 == None:
+                    insert_query2 = "INSERT INTO links_list(name, youtube) VALUES(%s, %s)"
+                    cursor.execute(insert_query2, (akun, link,))
+
+                    connection.commit()
+
+                else:
+                    update_query2 = "UPDATE links_list SET youtube=%s WHERE name=%s;"
+                    cursor.execute(update_query2, (link, akun,))
+
+                    connection.commit()
+
+                insert_query3 = "ALTER TABLE youtube ADD COLUMN " + akun + " BIGINT;"
+                cursor.execute(insert_query3)
+
+                connection.commit()
+
+                return redirect(url_for('youtube_add', alert='add_success'))
+
         if 'filter' in request.form and request.method == 'POST':
             tanggal1 = request.form.get('tanggal1')
             tanggal2 = request.form.get('tanggal2')
@@ -762,6 +942,66 @@ def facebook_add():
 
         cursor = connection.cursor()
 
+        if 'tambahAkun' in request.form and request.method == 'POST':
+            akun = request.form.get('namaAkun')
+            link = request.form.get('linkInput')
+
+            columns_query = """SELECT column_name
+            FROM information_schema.columns 
+            WHERE table_name = 'facebook';"""
+
+            cursor.execute(columns_query)
+
+            columns_result = cursor.fetchall()
+
+            columns = []
+            for column in columns_result:
+                columns.append(column[0])
+
+            if akun in columns:
+                return redirect(url_for('facebook_add', alert='account_exists'))
+            else:
+                select_query = "SELECT name FROM createdate WHERE name='" + akun + "';"
+                cursor.execute(select_query)
+
+                select_result = cursor.fetchone()
+
+                if select_result == None:
+                    insert_query = "INSERT INTO createdate(name, facebook) VALUES (%s, %s)"
+                    cursor.execute(insert_query, (akun, datetime.now().strftime("%Y-%m-%d"),))
+
+                    connection.commit()
+
+                else:
+                    update_query = "UPDATE createdate SET facebook=%s WHERE name='" + akun + "';"
+                    cursor.execute(update_query, (datetime.now().strftime("%Y-%m-%d"),))
+
+                    connection.commit()
+
+                select_query2 = "SELECT name FROM links_list WHERE name='" + akun + "';"
+                cursor.execute(select_query2)
+
+                select_result2 = cursor.fetchone()
+
+                if select_result2 == None:
+                    insert_query2 = "INSERT INTO links_list(name, facebook) VALUES(%s, %s)"
+                    cursor.execute(insert_query2, (akun, link,))
+
+                    connection.commit()
+
+                else:
+                    update_query2 = "UPDATE links_list SET facebook=%s WHERE name=%s;"
+                    cursor.execute(update_query2, (link, akun,))
+
+                    connection.commit()
+
+                insert_query3 = "ALTER TABLE facebook ADD COLUMN " + akun + " BIGINT;"
+                cursor.execute(insert_query3)
+
+                connection.commit()
+
+                return redirect(url_for('facebook_add', alert='add_success'))
+
         if 'filter' in request.form and request.method == 'POST':
             tanggal1 = request.form.get('tanggal1')
             tanggal2 = request.form.get('tanggal2')
@@ -816,3 +1056,4 @@ def facebook_add():
 
 if __name__ == '__main__':
     app.run(debug=True)
+    # app.run()

@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 	<style>
 		fieldset.scheduler-border {
 		border: 1px groove #ddd !important;
@@ -28,16 +30,22 @@
 			<fieldset class="scheduler-border">
 				<legend class="scheduler-border">Tambah Akun</legend>
 				<div class="container">
-
-					<div class="control-group">
+					<div class="contol-group">
 						<div class="row">
 							<div class="form-group form-inline">
 								<label for="tambahAkun">Nama Akun :</label>
-								<input id="tambahAkun" class="form-control form-control-sm ml-3" type="text">
+								<input name="namaAkun" id="tambahAkun" class="form-control form-control-sm ml-3" type="text">
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-inline">
+								<label for="linkInput">Link Socialblade :</label>
+								<input name="linkInput" id="linkInput" class="form-control form-control-sm ml-3" type="text">
 								<button name="tambahAkun" type="submit" class="btn btn-sm btn-primary ml-3">Tambah Akun</button>
 							</div>
 						</div>
 					</div>
+				</div>
 			</fieldset>
 		</form>
 
@@ -110,6 +118,22 @@
 		{% endif %}
 			
 	</div>
+
+	<script>
+		{% if request.args.get('alert', '') == 'account_exists' %}
+		Swal.fire({
+		icon: 'error',
+		title: 'Akun sudah ada',
+		})
+		{% endif %}
+
+		{% if request.args.get('alert', '') == 'add_success' %}
+		Swal.fire({
+		icon: 'success',
+		title: 'Akun berhasil ditambahkan!',
+		})
+		{% endif %}
+	</script>
 
 {% endblock content %}
     
