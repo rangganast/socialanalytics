@@ -772,7 +772,7 @@ def instagram_add():
 
             return render_template('add.html', title='Instagram', names=names, dates=dates, tanggal1=tanggal1, tanggal2=tanggal2)
 
-        date_query = "SELECT name, instagram FROM createdate ORDER BY twitter DESC LIMIT 5;"
+        date_query = "SELECT name, instagram FROM createdate ORDER BY instagram DESC LIMIT 5;"
         cursor.execute(date_query)
 
         date_result = cursor.fetchall()
@@ -899,7 +899,7 @@ def youtube_add():
 
             return render_template('add.html', title='Youtube', names=names, dates=dates, tanggal1=tanggal1, tanggal2=tanggal2)
 
-        date_query = "SELECT name, youtube FROM createdate ORDER BY twitter DESC LIMIT 5;"
+        date_query = "SELECT name, youtube FROM createdate ORDER BY youtube DESC LIMIT 5;"
         cursor.execute(date_query)
 
         date_result = cursor.fetchall()
@@ -1026,7 +1026,7 @@ def facebook_add():
 
             return render_template('add.html', title='Facebook', names=names, dates=dates, tanggal1=tanggal1, tanggal2=tanggal2)
 
-        date_query = "SELECT name, facebook FROM createdate ORDER BY twitter DESC LIMIT 5;"
+        date_query = "SELECT name, facebook FROM createdate ORDER BY facebook DESC LIMIT 5;"
         cursor.execute(date_query)
 
         date_result = cursor.fetchall()
