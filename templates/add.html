@@ -104,8 +104,24 @@
 					<td>{{names[i]}}</td>
 					<td>{{dates[i]}}</td>
 					<td>
-						<button type="button" class="btn btn-sm btn-outline-primary">Ubah</button>
-						<button type="button" class="btn btn-sm btn-outline-primary ml-1">Hapus</button>
+						<div class="col-12">
+							<form class="form-inline" method="POST">
+								<div class="col-md-6">
+									<div class="input-group">
+										<input type="hidden" value="{{names[i]}}">
+										<button name="ubah" type="submit" class="btn btn-sm btn-outline-primary">Ubah</button>
+									</div>
+								</div>
+							</form>
+							<form class="form-inline" method="POST">
+								<div class="col-md-6">
+									<div class="input-group">
+										<input name="hapusAkun" type="hidden" value="{{names[i]}}">
+										<button name="hapus" type="submit" class="btn btn-sm btn-outline-primary">Hapus</button>
+									</div>
+								</div>
+							</form>
+						</div>
 					</td>
 				</tr>
 				{% endif %}
