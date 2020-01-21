@@ -8,7 +8,7 @@ import urllib
 
 sched = BlockingScheduler()
 
-@sched.scheduled_job('cron', hour=9, minute=30)
+@sched.scheduled_job('cron', hour=9)
 def socialanalytics():
     locale.setlocale( locale.LC_ALL, 'en_US.UTF-8' )
     # connection = psycopg2.connect(host='localhost',
