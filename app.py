@@ -614,7 +614,48 @@ def twitter_add():
         # if 'hapus' in request.form and request.method == 'POST':
         #     name = request.form.get('hapusAkun')
 
-        #     delete_query1 = 
+        #     delete_query1 = "UPDATE createdate SET twitter=null WHERE name='" + name + "';"
+        #     cursor.execute(delete_query1)
+
+        #     connection.commit()
+
+        #     delete_query2 = "UPDATE links_list SET twitter=null WHERE name='" + name + "';"
+        #     cursor.execute(delete_query2)
+
+        #     connection.commit()
+
+        #     delete_query3 = "ALTER TABLE twitter DROP COLUMN " + name + ";"
+        #     cursor.execute(delete_query3)
+
+        #     connection.commit()
+
+        #     check_delete1 = "SELECT twitter, instagram, youtube, facebook FROM createdate WHERE name='" + name + "';"
+        #     cursor.execute(check_delete1)
+
+        #     check_result1 = cursor.fetchone()
+
+        #     if not all(check_result1):
+        #         delete = "DELETE FROM createdate WHERE name='" + name + "';"
+        #         cursor.execute(delete)
+
+        #         connection.commit()
+        #     else:
+        #         pass
+
+        #     check_delete2 = "SELECT twitter, instagram, youtube, facebook FROM links_list WHERE name='" + name + "';"
+        #     cursor.execute(check_delete1)
+
+        #     check_result2 = cursor.fetchone()
+
+        #     if not all(check_result2):
+        #         delete = "DELETE FROM links_list WHERE name='" + name + "';"
+        #         cursor.execute(delete)
+
+        #         connection.commit()
+        #     else:
+        #         pass
+
+        #     return redirect(url_for('twitter_add'))
 
         if 'filter' in request.form and request.method == 'POST':
             tanggal1 = request.form.get('tanggal1')
