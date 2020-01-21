@@ -34,13 +34,13 @@
 						<div class="row">
 							<div class="form-group form-inline">
 								<label for="tambahAkun">Nama Akun :</label>
-								<input name="namaAkun" id="tambahAkun" class="form-control form-control-sm ml-3" type="text">
+								<input name="namaAkun" id="tambahAkun" class="form-control form-control-sm ml-3" type="text" required>
 							</div>
 						</div>
 						<div class="row">
 							<div class="form-inline">
 								<label for="linkInput">Link Socialblade :</label>
-								<input name="linkInput" id="linkInput" class="form-control form-control-sm ml-3" type="text">
+								<input name="linkInput" id="linkInput" class="form-control form-control-sm ml-3" type="url" placeholder="https://socialblade.com/..." pattern="https://socialblade.com/.*" required>
 								<button name="tambahAkun" type="submit" class="btn btn-sm btn-primary ml-3">Tambah Akun</button>
 							</div>
 						</div>
@@ -93,6 +93,7 @@
 			<thead>
 				<th scope="col">Username</th>
 				<th scope="col">Createdate</th>
+				<th scope="col">Action</th>
 			</thead>
 			<tbody>
 				{% for i in range(names|length) %}
@@ -100,8 +101,12 @@
 				{% if dates[i] == None %}
 				{% else %}
 				<tr>
-					<td>{{names[i]}}
-					<td>{{dates[i]}}
+					<td>{{names[i]}}</td>
+					<td>{{dates[i]}}</td>
+					<td>
+						<button type="button" class="btn btn-sm btn-outline-primary">Ubah</button>
+						<button type="button" class="btn btn-sm btn-outline-primary ml-1">Hapus</button>
+					</td>
 				</tr>
 				{% endif %}
 					

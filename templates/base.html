@@ -27,7 +27,18 @@
 
 <body>
     <link href="css/simple-sidebar.css" rel="stylesheet">
-    <style>      
+    <style>    
+        .btn-outline-primary{
+            border-color: #dc1e3c !important;
+            color: #dc1e3c !important;
+        }
+
+        .btn-outline-primary:hover{
+            background-color: #dc1e3c !important;
+            border-color: #dc1e3c !important;
+            color: white !important;
+        }
+
         .btn-primary,
         .btn-primary:hover,
         .btn-primary:active,
@@ -41,7 +52,7 @@
         background-color: darkgray;
         color: white;
         }
-
+        
         a.bg-light:focus,
         a.bg-light:hover,
         button.bg-light:focus,
@@ -113,7 +124,7 @@
                 </ul>
             </div> -->
 
-            <a href="#" class="list-group-item list-group-item-action bg-light">
+            <a href="{{ url_for('user') }}" class="list-group-item list-group-item-action bg-light">
                  <strong>Manajemen User</strong>
             </a>
 

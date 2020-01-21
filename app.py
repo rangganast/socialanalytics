@@ -1054,6 +1054,10 @@ def facebook_add():
 
 # USER MANAGEMENT SECTION
 
+@app.route('/user', methods=["GET", "POST"])
+def user():
+    return render_template('user.html')
+
 if __name__ == '__main__':
-    app.run(debug=True)
-    # app.run()
+    # app.run(debug=True)
+    app.run()
