@@ -360,8 +360,12 @@ def instagram_report():
 
                 date.append(d)
                 followers.append(tup[1])
-        
+            
+            connection.close()
+
             return render_template('report.html', title='Instagram', names=columns[1:], accName=accName, tanggal1=tanggal1, tanggal2=tanggal2, date=date, followers=followers)
+
+        connection.close()
 
         return render_template('report.html', title='Instagram', names=columns[1:], columns=columns, body_table=body_table)
     
@@ -442,8 +446,12 @@ def youtube_report():
 
                 date.append(d)
                 followers.append(tup[1])
-        
+
+            connection.close()
+
             return render_template('report.html', title='Youtube', names=columns[1:], accName=accName, tanggal1=tanggal1, tanggal2=tanggal2, date=date, followers=followers)
+
+        connection.close()
 
         return render_template('report.html', title='Youtube', names=columns[1:], columns=columns, body_table=body_table)
     
@@ -524,8 +532,12 @@ def facebook_report():
 
                 date.append(d)
                 followers.append(tup[1])
-        
+
+            connection.close()
+
             return render_template('report.html', title='Facebook', names=columns[1:], accName=accName, tanggal1=tanggal1, tanggal2=tanggal2, date=date, followers=followers)
+
+        connection.close()
 
         return render_template('report.html', title='Facebook', names=columns[1:], columns=columns, body_table=body_table)
 
@@ -551,9 +563,9 @@ def twitter_add():
 
         cursor = connection.cursor()
 
-        if 'tambahAkun' in request.form and request.method == 'POST':
-            akun = request.form.get('namaAkun')
-            link = request.form.get('linkInput')
+        if 'tambah' in request.form and request.method == 'POST':
+            akun = request.form.get('tambahAkun')
+            link = request.form.get('tambahLink')
 
             columns_query = """SELECT column_name
             FROM information_schema.columns 
@@ -609,53 +621,81 @@ def twitter_add():
 
                 connection.commit()
 
+                connection.close()
+
                 return redirect(url_for('twitter_add', alert='add_success'))
 
-        # if 'hapus' in request.form and request.method == 'POST':
-        #     name = request.form.get('hapusAkun')
+        if 'hapus' in request.form and request.method == 'POST':
+            name = request.form.get('hapusAkun')
 
-        #     delete_query1 = "UPDATE createdate SET twitter=null WHERE name='" + name + "';"
-        #     cursor.execute(delete_query1)
+            delete_query1 = "UPDATE createdate SET twitter=null WHERE name='" + name + "';"
+            cursor.execute(delete_query1)
 
-        #     connection.commit()
+            connection.commit()
 
-        #     delete_query2 = "UPDATE links_list SET twitter=null WHERE name='" + name + "';"
-        #     cursor.execute(delete_query2)
+            delete_query2 = "UPDATE links_list SET twitter=null WHERE name='" + name + "';"
+            cursor.execute(delete_query2)
 
-        #     connection.commit()
+            connection.commit()
 
-        #     delete_query3 = "ALTER TABLE twitter DROP COLUMN " + name + ";"
-        #     cursor.execute(delete_query3)
+            delete_query3 = "ALTER TABLE twitter DROP COLUMN " + name + ";"
+            cursor.execute(delete_query3)
 
-        #     connection.commit()
+            connection.commit()
 
-        #     check_delete1 = "SELECT twitter, instagram, youtube, facebook FROM createdate WHERE name='" + name + "';"
-        #     cursor.execute(check_delete1)
+            check_delete1 = "SELECT twitter, instagram, youtube, facebook FROM createdate WHERE name='" + name + "';"
+            cursor.execute(check_delete1)
 
-        #     check_result1 = cursor.fetchone()
+            check_result1 = cursor.fetchone()
 
-        #     if not all(check_result1):
-        #         delete = "DELETE FROM createdate WHERE name='" + name + "';"
-        #         cursor.execute(delete)
+            if all(item is None for item in check_result1):
+                delete = "DELETE FROM createdate WHERE name='" + name + "';"
+                cursor.execute(delete)
 
-        #         connection.commit()
-        #     else:
-        #         pass
+                connection.commit()
+            else:
+                pass
 
-        #     check_delete2 = "SELECT twitter, instagram, youtube, facebook FROM links_list WHERE name='" + name + "';"
-        #     cursor.execute(check_delete1)
+            check_delete2 = "SELECT twitter, instagram, youtube, facebook FROM links_list WHERE name='" + name + "';"
+            cursor.execute(check_delete2)
 
-        #     check_result2 = cursor.fetchone()
+            check_result2 = cursor.fetchone()
 
-        #     if not all(check_result2):
-        #         delete = "DELETE FROM links_list WHERE name='" + name + "';"
-        #         cursor.execute(delete)
+            if all(item is None for item in check_result2):
+                delete = "DELETE FROM links_list WHERE name='" + name + "';"
+                cursor.execute(delete)
 
-        #         connection.commit()
-        #     else:
-        #         pass
+                connection.commit()
+            else:
+                pass
 
-        #     return redirect(url_for('twitter_add'))
+            connection.close()
+
+            return redirect(url_for('twitter_add', alert='delete_success'))
+
+        if 'ubah' in request.form and request.method == 'POST':
+            old_name = request.form.get('namaAkunHidden')
+            new_name = request.form.get('namaAkun')
+            link = request.form.get('linkInput')
+
+            update_query = "UPDATE createdate SET name='" + new_name + "' WHERE name='" + old_name + "';"
+            cursor.execute(update_query)
+
+            connection.commit()
+
+            update_query2 = "UPDATE links_list SET name='" + new_name + "', twitter='" + link + "' WHERE name='" + old_name + "';"
+            cursor.execute(update_query2)
+
+            connection.commit()
+
+            update_query3 = "ALTER TABLE twitter RENAME COLUMN " + old_name + " TO " + new_name + ";"
+            cursor.execute(update_query3)
+
+            connection.commit()
+
+            connection.close()
+
+            return redirect(url_for('twitter_add', alert='update_success'))
 
         if 'filter' in request.form and request.method == 'POST':
             tanggal1 = request.form.get('tanggal1')
@@ -684,6 +724,8 @@ def twitter_add():
                     d = d.strftime("%d/%m/%Y")
                     dates.append(d)
 
+            connection.close()
+
             return render_template('add.html', title='Twitter', names=names, dates=dates, tanggal1=tanggal1, tanggal2=tanggal2)
 
         date_query = "SELECT name, twitter FROM createdate ORDER BY twitter DESC LIMIT 5;"
@@ -702,6 +744,8 @@ def twitter_add():
                 d = datetime.strptime(str(tup[1]), "%Y-%m-%d")
                 d = d.strftime("%d/%m/%Y")
                 dates.append(d)
+        
+        connection.close()
 
         return render_template('add.html', title='Twitter', names=names, dates=dates)
     else:
@@ -724,9 +768,9 @@ def instagram_add():
 
         cursor = connection.cursor()
 
-        if 'tambahAkun' in request.form and request.method == 'POST':
-            akun = request.form.get('namaAkun')
-            link = request.form.get('linkInput')
+        if 'tambah' in request.form and request.method == 'POST':
+            akun = request.form.get('tambahAkun')
+            link = request.form.get('tambahLink')
 
             columns_query = """SELECT column_name
             FROM information_schema.columns 
@@ -782,7 +826,81 @@ def instagram_add():
 
                 connection.commit()
 
+                connection.close()
+
                 return redirect(url_for('instagram_add', alert='add_success'))
+
+        if 'hapus' in request.form and request.method == 'POST':
+            name = request.form.get('hapusAkun')
+
+            delete_query1 = "UPDATE createdate SET instagram=null WHERE name='" + name + "';"
+            cursor.execute(delete_query1)
+
+            connection.commit()
+
+            delete_query2 = "UPDATE links_list SET instagram=null WHERE name='" + name + "';"
+            cursor.execute(delete_query2)
+
+            connection.commit()
+
+            delete_query3 = "ALTER TABLE instagram DROP COLUMN " + name + ";"
+            cursor.execute(delete_query3)
+
+            connection.commit()
+
+            check_delete1 = "SELECT twitter, instagram, youtube, facebook FROM createdate WHERE name='" + name + "';"
+            cursor.execute(check_delete1)
+
+            check_result1 = cursor.fetchone()
+
+            if all(item is None for item in check_result1):
+                delete = "DELETE FROM createdate WHERE name='" + name + "';"
+                cursor.execute(delete)
+
+                connection.commit()
+            else:
+                pass
+
+            check_delete2 = "SELECT twitter, instagram, youtube, facebook FROM links_list WHERE name='" + name + "';"
+            cursor.execute(check_delete2)
+
+            check_result2 = cursor.fetchone()
+
+            if all(item is None for item in check_result2):
+                delete = "DELETE FROM links_list WHERE name='" + name + "';"
+                cursor.execute(delete)
+
+                connection.commit()
+            else:
+                pass
+            
+            connection.close()
+
+            return redirect(url_for('instagram_add', alert='delete_success'))
+
+        if 'ubah' in request.form and request.method == 'POST':
+            old_name = request.form.get('namaAkunHidden')
+            new_name = request.form.get('namaAkun')
+            link = request.form.get('linkInput')
+
+            update_query = "UPDATE createdate SET name='" + new_name + "' WHERE name='" + old_name + "';"
+            cursor.execute(update_query)
+
+            connection.commit()
+
+            update_query2 = "UPDATE links_list SET name='" + new_name + "', instagram='" + link + "' WHERE name='" + old_name + "';"
+            cursor.execute(update_query2)
+
+            connection.commit()
+
+            update_query3 = "ALTER TABLE instagram RENAME COLUMN " + old_name + " TO " + new_name + ";"
+            cursor.execute(update_query3)
+
+            connection.commit()
+
+            connection.close()
+
+            return redirect(url_for('instagram_add', alert='update_success'))
 
         if 'filter' in request.form and request.method == 'POST':
             tanggal1 = request.form.get('tanggal1')
@@ -811,6 +929,8 @@ def instagram_add():
                     d = d.strftime("%d/%m/%Y")
                     dates.append(d)
 
+            connection.close()
+
             return render_template('add.html', title='Instagram', names=names, dates=dates, tanggal1=tanggal1, tanggal2=tanggal2)
 
         date_query = "SELECT name, instagram FROM createdate ORDER BY instagram DESC LIMIT 5;"
@@ -829,6 +949,8 @@ def instagram_add():
                 d = datetime.strptime(str(tup[1]), "%Y-%m-%d")
                 d = d.strftime("%d/%m/%Y")
                 dates.append(d)
+
+        connection.close()
 
         return render_template('add.html', title='Instagram', names=names, dates=dates)
     else:
@@ -851,9 +973,9 @@ def youtube_add():
 
         cursor = connection.cursor()
 
-        if 'tambahAkun' in request.form and request.method == 'POST':
-            akun = request.form.get('namaAkun')
-            link = request.form.get('linkInput')
+        if 'tambah' in request.form and request.method == 'POST':
+            akun = request.form.get('tambahAkun')
+            link = request.form.get('tambahLink')
 
             columns_query = """SELECT column_name
             FROM information_schema.columns 
@@ -909,7 +1031,81 @@ def youtube_add():
 
                 connection.commit()
 
+                connection.close()
+
                 return redirect(url_for('youtube_add', alert='add_success'))
+
+        if 'hapus' in request.form and request.method == 'POST':
+            name = request.form.get('hapusAkun')
+
+            delete_query1 = "UPDATE createdate SET youtube=null WHERE name='" + name + "';"
+            cursor.execute(delete_query1)
+
+            connection.commit()
+
+            delete_query2 = "UPDATE links_list SET youtube=null WHERE name='" + name + "';"
+            cursor.execute(delete_query2)
+
+            connection.commit()
+
+            delete_query3 = "ALTER TABLE youtube DROP COLUMN " + name + ";"
+            cursor.execute(delete_query3)
+
+            connection.commit()
+
+            check_delete1 = "SELECT twitter, instagram, youtube, facebook FROM createdate WHERE name='" + name + "';"
+            cursor.execute(check_delete1)
+
+            check_result1 = cursor.fetchone()
+
+            if all(item is None for item in check_result1):
+                delete = "DELETE FROM createdate WHERE name='" + name + "';"
+                cursor.execute(delete)
+
+                connection.commit()
+            else:
+                pass
+
+            check_delete2 = "SELECT twitter, instagram, youtube, facebook FROM links_list WHERE name='" + name + "';"
+            cursor.execute(check_delete2)
+
+            check_result2 = cursor.fetchone()
+
+            if all(item is None for item in check_result2):
+                delete = "DELETE FROM links_list WHERE name='" + name + "';"
+                cursor.execute(delete)
+
+                connection.commit()
+            else:
+                pass
+            
+            connection.close()
+
+            return redirect(url_for('youtube_add', alert='delete_success'))
+
+        if 'ubah' in request.form and request.method == 'POST':
+            old_name = request.form.get('namaAkunHidden')
+            new_name = request.form.get('namaAkun')
+            link = request.form.get('linkInput')
+
+            update_query = "UPDATE createdate SET name='" + new_name + "' WHERE name='" + old_name + "';"
+            cursor.execute(update_query)
+
+            connection.commit()
+
+            update_query2 = "UPDATE links_list SET name='" + new_name + "', youtube='" + link + "' WHERE name='" + old_name + "';"
+            cursor.execute(update_query2)
+
+            connection.commit()
+
+            update_query3 = "ALTER TABLE youtube RENAME COLUMN " + old_name + " TO " + new_name + ";"
+            cursor.execute(update_query3)
+
+            connection.commit()
+
+            connection.close()
+
+            return redirect(url_for('youtube_add', alert='update_success'))
 
         if 'filter' in request.form and request.method == 'POST':
             tanggal1 = request.form.get('tanggal1')
@@ -938,6 +1134,8 @@ def youtube_add():
                     d = d.strftime("%d/%m/%Y")
                     dates.append(d)
 
+            connection.close()
+            
             return render_template('add.html', title='Youtube', names=names, dates=dates, tanggal1=tanggal1, tanggal2=tanggal2)
 
         date_query = "SELECT name, youtube FROM createdate ORDER BY youtube DESC LIMIT 5;"
@@ -956,6 +1154,8 @@ def youtube_add():
                 d = datetime.strptime(str(tup[1]), "%Y-%m-%d")
                 d = d.strftime("%d/%m/%Y")
                 dates.append(d)
+
+        connection.close()
 
         return render_template('add.html', title='Youtube', names=names, dates=dates)
     else:
@@ -978,9 +1178,9 @@ def facebook_add():
 
         cursor = connection.cursor()
 
-        if 'tambahAkun' in request.form and request.method == 'POST':
-            akun = request.form.get('namaAkun')
-            link = request.form.get('linkInput')
+        if 'tambah' in request.form and request.method == 'POST':
+            akun = request.form.get('tambahAkun')
+            link = request.form.get('tambahLink')
 
             columns_query = """SELECT column_name
             FROM information_schema.columns 
@@ -1036,7 +1236,81 @@ def facebook_add():
 
                 connection.commit()
 
+                connection.close()
+
                 return redirect(url_for('facebook_add', alert='add_success'))
+
+        if 'hapus' in request.form and request.method == 'POST':
+            name = request.form.get('hapusAkun')
+
+            delete_query1 = "UPDATE createdate SET facebook=null WHERE name='" + name + "';"
+            cursor.execute(delete_query1)
+
+            connection.commit()
+
+            delete_query2 = "UPDATE links_list SET facebook=null WHERE name='" + name + "';"
+            cursor.execute(delete_query2)
+
+            connection.commit()
+
+            delete_query3 = "ALTER TABLE facebook DROP COLUMN " + name + ";"
+            cursor.execute(delete_query3)
+
+            connection.commit()
+
+            check_delete1 = "SELECT twitter, instagram, youtube, facebook FROM createdate WHERE name='" + name + "';"
+            cursor.execute(check_delete1)
+
+            check_result1 = cursor.fetchone()
+
+            if all(item is None for item in check_result1):
+                delete = "DELETE FROM createdate WHERE name='" + name + "';"
+                cursor.execute(delete)
+
+                connection.commit()
+            else:
+                pass
+
+            check_delete2 = "SELECT twitter, instagram, youtube, facebook FROM links_list WHERE name='" + name + "';"
+            cursor.execute(check_delete2)
+
+            check_result2 = cursor.fetchone()
+
+            if all(item is None for item in check_result2):
+                delete = "DELETE FROM links_list WHERE name='" + name + "';"
+                cursor.execute(delete)
+
+                connection.commit()
+            else:
+                pass
+
+            connection.close()
+
+            return redirect(url_for('facebook_add', alert='delete_success'))
+
+        if 'ubah' in request.form and request.method == 'POST':
+            old_name = request.form.get('namaAkunHidden')
+            new_name = request.form.get('namaAkun')
+            link = request.form.get('linkInput')
+
+            update_query = "UPDATE createdate SET name='" + new_name + "' WHERE name='" + old_name + "';"
+            cursor.execute(update_query)
+
+            connection.commit()
+
+            update_query2 = "UPDATE links_list SET name='" + new_name + "', facebook='" + link + "' WHERE name='" + old_name + "';"
+            cursor.execute(update_query2)
+
+            connection.commit()
+
+            update_query3 = "ALTER TABLE facebook RENAME COLUMN " + old_name + " TO " + new_name + ";"
+            cursor.execute(update_query3)
+
+            connection.commit()
+
+            connection.close()
+
+            return redirect(url_for('facebook_add', alert='update_success'))
 
         if 'filter' in request.form and request.method == 'POST':
             tanggal1 = request.form.get('tanggal1')
@@ -1065,6 +1339,8 @@ def facebook_add():
                     d = d.strftime("%d/%m/%Y")
                     dates.append(d)
 
+            connection.close()
+
             return render_template('add.html', title='Facebook', names=names, dates=dates, tanggal1=tanggal1, tanggal2=tanggal2)
 
         date_query = "SELECT name, facebook FROM createdate ORDER BY facebook DESC LIMIT 5;"
@@ -1083,6 +1359,8 @@ def facebook_add():
                 d = datetime.strptime(str(tup[1]), "%Y-%m-%d")
                 d = d.strftime("%d/%m/%Y")
                 dates.append(d)
+
+        connection.close()
 
         return render_template('add.html', title='Facebook', names=names, dates=dates)
     else:

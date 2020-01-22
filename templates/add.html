@@ -34,14 +34,14 @@
 						<div class="row">
 							<div class="form-group form-inline">
 								<label for="tambahAkun">Nama Akun :</label>
-								<input name="namaAkun" id="tambahAkun" class="form-control form-control-sm ml-3" type="text" required>
+								<input name="tambahAkun" id="tambahAkun" class="form-control form-control-sm ml-3" type="text" required>
 							</div>
 						</div>
 						<div class="row">
 							<div class="form-inline">
-								<label for="linkInput">Link Socialblade :</label>
-								<input name="linkInput" id="linkInput" class="form-control form-control-sm ml-3" type="url" placeholder="https://socialblade.com/..." pattern="https://socialblade.com/.*" required>
-								<button name="tambahAkun" type="submit" class="btn btn-sm btn-primary ml-3">Tambah Akun</button>
+								<label for="tambahLink">Link Socialblade :</label>
+								<input name="tambahLink" id="tambahLink" class="form-control form-control-sm ml-3" type="url" placeholder="https://socialblade.com/..." pattern="https://socialblade.com/.*" required>
+								<button name="tambah" type="submit" class="btn btn-sm btn-primary ml-3">Tambah Akun</button>
 							</div>
 						</div>
 					</div>
@@ -100,12 +100,20 @@
 				
 				{% if dates[i] == None %}
 				{% else %}
-				<tr>
-					<td>{{names[i]}}</td>
+				<tr id="{{i}}">
+					<td id="colname">{{names[i]}}</td>
 					<td>{{dates[i]}}</td>
 					<td>
-						<button name="ubah" type="submit" class="btn btn-sm btn-outline-primary">Ubah</button>
-						<button name="hapus" type="submit" class="btn btn-sm btn-outline-primary ml-1">Hapus</button>
+						<div class="form-inline">
+							<div class="form-group">
+								<button id="hapusBtn" name="hapusBtn" type="button" class="btn btn-sm btn-outline-primary ml-1" data-toggle="modal"
+									data-target="#hapusModal" data-id={{i}}>Hapus</button>
+							</div>
+							<div class="form-group ml-1">
+								<button id="ubahBtn" type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal"
+									data-target="#ubahModal" data-id={{i}}>Ubah</button>
+							</div>
+						</div>
 					</td>
 				</tr>
 				{% endif %}
@@ -116,7 +124,9 @@
 		<script>
 			$(document).ready(function () {
 				$('#accountTable').DataTable({
-					"bInfo": false
+					"bInfo": false,
+					"paging": false,
+					"lengthChange": false
 				});
 			});
 		</script>
@@ -125,6 +135,26 @@
 	</div>
 
 	<script>
+		$(document).on("click", "#ubahBtn", function () {
+		$('#ubahModal').modal('show');
+		var i = $(this).attr('data-id');
+		var name = $("#accountTable tbody #" + i + " #colname").html();
+
+		console.log(name);
+
+		$("#ubahModal #namaAkun").val(name);
+		$("#ubahModal #namaAkunHidden").val(name);
+
+		});
+
+		$(document).on("click", "#hapusBtn", function () {
+		var i = $(this).attr('data-id');
+		var name = $("#accountTable tbody #" + i + " #colname").html();
+
+		$("#hapusModal #deleteAkunSpan").html(name);
+		$("#hapusModal #hapusAkun").val(name);
+		});
+
 		{% if request.args.get('alert', '') == 'account_exists' %}
 		Swal.fire({
 		icon: 'error',
@@ -138,7 +168,86 @@
 		title: 'Akun berhasil ditambahkan!',
 		})
 		{% endif %}
+
+		{% if request.args.get('alert', '') == 'update_success' %}
+		Swal.fire({
+		icon: 'success',
+		title: 'Akun berhasil diubah!',
+		})
+		{% endif %}
+
+		{% if request.args.get('alert', '') == 'delete_success' %}
+		Swal.fire({
+		icon: 'success',
+		title: 'Akun berhasil dihapus!',
+		})
+		{% endif %}
 	</script>
+
+	<!-- Modal -->
+	<div class="modal fade" id="hapusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<form method="POST">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Hapus Akun</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<i style="color: #dc1e3c;" class="far fa-times-circle"></i>
+						</button>
+					</div>
+					<div class="modal-body">
+						<input id="hapusAkun" name="hapusAkun" type="hidden" value="">
+						Hapus akun <strong><span id="deleteAkunSpan"></span></strong>?
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-sm btn-outline-primary" data-dismiss="modal">Batal</button>
+						<button name="hapus" type="submit" class="btn btn-sm btn-primary">Hapus</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="modal fade" id="ubahModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<form method="POST">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Ubah Akun</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<i style="color: #dc1e3c;" class="far fa-times-circle"></i>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="container">
+							<div class="contol-group">
+								<input id="namaAkunHidden" name="namaAkunHidden" type="hidden">
+								<div class="row">
+									<div class="form-group form-inline">
+										<label for="tambahAkun">Nama Akun :</label>
+										<input name="namaAkun" id="namaAkun" class="form-control form-control-sm ml-3" type="text" required>
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-inline">
+										<label for="linkInput">Link Socialblade :</label>
+										<input name="linkInput" id="linkInput" class="form-control form-control-sm ml-3" type="url"
+											placeholder="https://socialblade.com/..." pattern="https://socialblade.com/.*" required>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-sm btn-outline-primary" data-dismiss="modal">Batal</button>
+						<button name="ubah" type="submit" class="btn btn-sm btn-primary">Ubah</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 
 {% endblock content %}
     
