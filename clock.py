@@ -26,13 +26,13 @@ def socialanalytics():
     cursor = connection.cursor()
 
     yesterday = datetime.now() - timedelta(days=1)
-    
+
     # TWITTER SECTION
     date_query = "INSERT INTO twitter (date) VALUES(%s) ON CONFLICT DO NOTHING"
     cursor.execute(date_query, (yesterday.strftime("%Y-%m-%d"),))
 
     connection.commit()
-    
+
     links_query = "SELECT name, twitter FROM links_list"
     cursor.execute(links_query)
 

@@ -20,7 +20,7 @@
 		}
 
 	</style>
-
+	
 	<!-- MAIN -->
 	<div class="container mt-3">
 		<h3 class="mb-3 text-center">Laporan Jumlah Pengikut Media Sosial ({{title}})</h3>
@@ -106,7 +106,8 @@
 		<script>
 			$(document).ready(function() {
 			$('#followersTable').DataTable({
-				"bInfo": false
+				"bInfo": false,
+				"order" : [[0, "desc"]]
 			});
 			} );
 		</script>
@@ -137,7 +138,8 @@
 		<script>
 			$(document).ready(function() {
 			$('#followersTable').DataTable({
-				"bInfo": false
+				"bInfo": false,
+				"order": [[0, "desc"]]
 			});
 			} );
 		</script>
