@@ -152,7 +152,7 @@ def login():
             engine = create_engine("postgres://eqftcddubymbhj:3705cdefc407327451a047ea12704db9d87bb675f3bccc298729e085ca2b6367@ec2-174-129-18-210.compute-1.amazonaws.com:5432/d51hcp79u206q8")
             db = scoped_session(sessionmaker(bind=engine))
 
-            username = request.form.get('username')
+            username = request.form.get('admin')
             password = request.form.get('password')
 
             usernamedata = db.execute("SELECT username FROM users WHERE username='" + username + "'").fetchone()
